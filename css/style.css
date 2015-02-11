@@ -1000,3 +1000,8 @@
 			display: inline-block;
 			width: 5em;
 		}
+
+		.inner-html {
+			width: 100%;
+			height: 656px;
+		}
