@@ -34,10 +34,15 @@
       float x = vPosition.x - uCursor.x * uCursor.z;                          // Use only x and y coords of
       float y = vPosition.y - uCursor.y * uCursor.z;                          //   the square's geometry.      
       float rr = sqrt(x * x + y * y);                                         // Get the radius for the circle.
-      if (rr < mod(uTime,.5) ) {                                              // If the point lies within the circle.
-        gl_FragColor = vec4(x * .5 + .5, .5 + .5 * sin(3. * uTime), y * .5 + .5, 1.);     // Color changes based on time.
+      float modulo = mod(rr - uTime,0.4);                                     // Get concentric circles.
+      bool toggle = false;
+      if (modulo > 0.2) {
+        toggle = true;
+      }
+      if (toggle) {
+        gl_FragColor = vec4(x * .5 + .5, .5 + .5 * sin( uTime), y * .5 + .5, 1.);     // Color changes based on time.
       } else {
-        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        gl_FragColor = vec4(x * .5 + .5,  y * .5 + .5, .5 + .5 * cos( uTime), 1.);     // Color changes based on time.
       }      
    }
 </script>
