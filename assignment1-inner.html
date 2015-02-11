@@ -35,7 +35,7 @@
       float y = vPosition.y - uCursor.y * uCursor.z;                          //   the square's geometry.      
       float rr = sqrt(x * x + y * y);                                         // Get the radius for the circle.
       if (rr < mod(uTime,.5) ) {                                              // If the point lies within the circle.
-        gl_FragColor = vec4(x * .5 + .5, .5 + .5 * sin(3. * uTime), y * .5 + .5, 1.);
+        gl_FragColor = vec4(x * .5 + .5, .5 + .5 * sin(3. * uTime), y * .5 + .5, 1.);     // Color changes based on time.
       } else {
         gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
       }      
