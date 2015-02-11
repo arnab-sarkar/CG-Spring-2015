@@ -343,6 +343,15 @@
 					background: #df93b8;
 				}
 
+			.icon.circle.fa-linkedin {
+				background: #4875B4;
+				color: white;
+			}
+
+				.icon.circle.fa-linkedin:hover {
+					background: #577eb9;
+				}
+
 		.icon.feature {
 			cursor: default;
 			display: block;
