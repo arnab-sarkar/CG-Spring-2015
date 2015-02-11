@@ -1,49 +1,109 @@
-<script src=lib1.js></script>
+<!DOCTYPE HTML>
+<!--
+	Twenty 1.0 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Right Sidebar - Twenty by HTML5 UP</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+	</head>
+	<body class="right-sidebar loading">
+	
+		<!-- Header -->
+			<header id="header">
+				<h1 id="logo"><a href="index.html">HOME</a></h1>
+				<nav id="nav">
+					<ul>
+						<li class="current"><a href="Arnab-Sarkar-Resume.pdf" target="_blank">ARNAB SARKAR</a></li>
+						<li class="submenu">
+							<a href="">Assignments</a>
+							<ul>
+								<li><a href="right-sidebar.html">Assignment 1</a></li>								
+							</ul>
+						</li>						
+					</ul>
+				</nav>
+			</header>
+		
+		<!-- Main -->
+			<article id="main">
 
-<canvas id='canvas1' width='640' height='640'></canvas>
+				<header class="special container">
+					<span class="icon fa-laptop"></span>
+					<h2><strong>Assignment 1</strong></h2>
+					<!--p>Where things on the right ... accompany that on the left.</p-->
+				</header>
+					
+				<!-- One -->
+					<section class="wrapper style4 container">
+					
+						<div class="row oneandhalf">
+							<div class="8u">
+								
+								<!-- Content -->
+									<div class="content">
+										<section>
+											<!--a href="#" class="image feature"><img src="images/pic03.jpg" alt="" /></a-->
+											<div> 
+											    <object type="text/html" data="assignment1-inner.html" width="700px" height="700px" style="overflow:auto;">
+											    </object>
+											 </div>											
+										</section>
+									</div>
+	
+							</div>
+							<div class="4u">
+								
+								<!-- Sidebar -->
+									<div class="sidebar">
+										<section>
+											<header>
+												<h3>Color Burst</h3>
+											</header>																	
+										</section>
 
-<script id='my_vertex_shader' type='x-shader/x-vertex'>
-   attribute vec3 aPosition;
-   varying   vec3 vPosition;
-   void main() {
-      gl_Position = vec4(aPosition, 1.0);
-      vPosition = aPosition;
-   }
-</script>
+										<section>
+											<p>Bursts of color appear in circle.</p>		
+										
+											<p>The center of the circle can be changed by clicking and dragging the mouse.</p>
+										</section>
+									</div>
 
-<!!==========================================================================
+							</div>
+						</div>					
+					</section>				
+			</article>
 
-   Below is the fragment shader from class (with some slight improvements).
+		<!-- Footer -->
+		<footer id="footer">
+			
+				<ul class="icons">
+					<li><a href="https://twitter.com/arnabsarkar1111" target="_blank" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
+					<li><a href="https://www.facebook.com/arnabsarkar1111" target="_blank" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
+					<li><a href="https://www.linkedin.com/pub/arnab-sarkar/7a/ab0/795" target="_blank" class="icon circle fa-linkedin"><span class="label">Google+</span></a></li>
+					<li><a href="https://github.com/arnab-sarkar" target="_blank" class="icon circle fa-github"><span class="label">Github</span></a></li>
+					<!--li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li-->
+				</ul>
+				
+				<span class="copyright">&copy; CG. All rights reserved.</span>
+			
+			</footer>
 
-   Your assignment is to write your own interesting fragment shader program.
-   Try to have fun with it -- use "uTime" to create animated patterns, and
-   "uCursor" to make it responsive to a user's mouse gestures.
-
-   Try to make something as completely different from my "easter egg" example
-   as possible :-)
-
-============================================================================>
-
-<script id='my_fragment_shader' type='x-shader/x-fragment'>
-   precision mediump float;
-   uniform float uTime;
-   uniform vec3  uCursor;
-   varying vec3  vPosition;
-   void main() {
-      vec3 color = vec3(0., 0., 0.);                                          // Set background color black.
-      float x = vPosition.x - uCursor.x * uCursor.z;                          // Use only x and y coords of
-      float y = vPosition.y - uCursor.y * uCursor.z;                          //   the square's geometry.      
-      float rr = sqrt(x * x + y * y);                                         // Get the radius for the circle.
-      if (rr < mod(uTime,.5) ) {                                              // If the point lies within the circle.
-        gl_FragColor = vec4(x * .5 + .5, .5 + .5 * sin(3. * uTime), y * .5 + .5, 1.);
-      } else {
-        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-      }      
-   }
-</script>
-
-<script>
-start_gl('canvas1', document.getElementById('my_vertex_shader'  ).innerHTML,
-                    document.getElementById('my_fragment_shader').innerHTML);
-</script>
-
+	</body>
+</html>
