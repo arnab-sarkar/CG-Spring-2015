@@ -1013,4 +1013,5 @@
 		.inner-html {
 			width: 100%;
 			height: 656px;
+			overflow: auto;
 		}
