@@ -1011,7 +1011,7 @@
 		}
 
 		.inner-html {
-			width: 100%;
+			width: 800px;
 			height: 800px;
-			overflow: visible;
+			overflow: auto;
 		}
