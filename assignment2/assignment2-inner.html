@@ -1,0 +1,124 @@
+<script src=lib1.js></script>
+
+<body bgcolor=black>
+<center>
+<td><canvas id='canvas1' width=640 height=640></canvas></td>
+</center>
+</body>
+
+<script id='my_vertex_shader' type='x-shader/x-vertex'>
+   attribute vec3 aPosition;
+   varying   vec3 vPosition;
+   void main() {
+      gl_Position = vec4(aPosition, 1.0);
+      vPosition = aPosition;
+   }
+</script>
+
+<script id='my_fragment_shader' type='x-shader/x-fragment'>
+   precision mediump float;
+   uniform float uTime;
+   uniform vec3  uCursor;
+   varying vec3  vPosition;
+
+   vec4 spheres[3];
+   vec3 materials[3];
+
+   vec3 Lrgb;
+   vec3 Ldir;
+
+   // Compute intersection of a ray with a sphere, if any.  Return t.
+   // If there is no intersection, return 10000.
+
+   float raySphere(vec3 V, vec3 W, vec4 S) {
+
+      // YOU NEED TO COMPUTE t, BY SETTING UP AND THEN SOLVING A QUADRATIC EQUATION.      
+       vec3 rc = V - S.xyz;
+       float b = .5 * dot(W, rc);
+       float c = dot(rc, rc) - (S.w * S.w);
+       float disc = b * b - 4. * c; 
+       if (disc < 0.0)
+           return 10000.;
+       float t, t1;       
+       t = (-b - sqrt(disc))/2.;       
+       t1 = (-b + sqrt(disc))/2.;
+
+       if (t > 0. && t1 > 0.) {
+         if (t < t1) {
+            return t;
+         }
+         return t1;
+       }
+       if (t > 0.) {
+          return t;
+       }
+       if (t1 > 0.) {
+         return t1;
+       }
+       
+       return 10000.;
+           
+   }
+
+   // Diffusely shade a sphere.
+   //    point is the x,y,z position of the surface point.
+   //    sphere is the x,y,z,r definition of the sphere.
+   //    material is the r,g,b color of the sphere.
+
+   vec3 shadeSphere(vec3 point, vec4 sphere, vec3 material) {
+      vec3 color = vec3(0.,0.,1.);
+
+      // YOU NEED TO COMPUTE COLOR FOR A DIFFUSELY SHADED SPHERE.
+
+      // FOR THE AMBIENT COMPONENT OF THE DIFFUSE SHADING, YOU CAN
+      // USE A SIMPLE APPROXIMATION SUCH AS: ambient = material / 5.;
+
+      vec3 normal = (point - sphere.xyz)/sphere.w;
+      vec3 ambient = material / 5.;
+      vec3 diffuse = Lrgb / 3.;
+      color = ambient + Lrgb * diffuse * max (0., dot(normal,Ldir));
+
+      return color;
+   }
+
+   void main(void) {
+      vec2 c = uCursor.xy;
+
+      Lrgb = vec3(1.,.5,0.);
+      Ldir = normalize(vec3(c.x, c.y, 1. - 2. * dot(c, c)));
+
+      // YOU NEED TO COMPUTE V AND W TO CREATE THE RAY FOR THIS PIXEL,
+      // USING vPosition.x AND vPosition.y.
+
+      vec3 V, W;
+
+      V = vec3(vPosition.x, vPosition.y, 0.);
+
+      W = vec3(vPosition.x, vPosition.y, 1.);  
+
+      // YOU NEED TO SET x,y,z AND r FOR sphere.
+      spheres[0] = vec4(0.,0.,0.,.3);
+      spheres[1] = vec4(.8 * sin(uTime), 0., 0., .1);
+
+      // YOU NEED TO SET r,g,b FOR material.
+      materials[0] = vec3(0.2, 0.1, .5 + .5 * sin(uTime));
+      materials[1] = vec3(0.1, 0.2, .5 + .5 * cos(uTime));
+      vec3 color = vec3(0., 0., 0.04);
+      float t = 10000.;      
+      for (int i = 0; i < 2; i++) {
+        float currentT = raySphere(V, W, spheres[i]);
+        if (currentT < t) {
+          t = currentT;
+          if (t < 10000.)
+           color = shadeSphere(V + t * W, spheres[i], materials[i]);
+        }                
+      }        
+      gl_FragColor = vec4(sqrt(color), 1.); // Do Gamma correction.
+   }
+</script>
+
+<script>
+start_gl('canvas1', document.getElementById('my_vertex_shader'  ).innerHTML,
+                    document.getElementById('my_fragment_shader').innerHTML);
+</script>
+
