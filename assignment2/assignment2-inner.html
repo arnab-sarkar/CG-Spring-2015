@@ -2,7 +2,7 @@
 
 <body bgcolor=black>
 <center>
-<td><canvas id='canvas1' width=640 height=640></canvas></td>
+<td><canvas id='canvas1' width=600 height=600></canvas></td>
 </center>
 </body>
 
@@ -26,6 +26,8 @@
 
    vec3 Lrgb;
    vec3 Ldir;
+   vec3 Lrgb2;
+   vec3 Ldir2;
 
    // Compute intersection of a ray with a sphere, if any.  Return t.
    // If there is no intersection, return 10000.
@@ -76,7 +78,9 @@
       vec3 normal = (point - sphere.xyz)/sphere.w;
       vec3 ambient = material / 5.;
       vec3 diffuse = Lrgb / 3.;
-      color = ambient + Lrgb * diffuse * max (0., dot(normal,Ldir));
+      vec3 diffuse2 = Lrgb2 / 3.;
+      color = ambient + Lrgb * diffuse * max (0., dot(normal,Ldir))
+                      + Lrgb2 * diffuse2 * max (0., dot(normal,Ldir2));
 
       return color;
    }
@@ -86,6 +90,8 @@
 
       Lrgb = vec3(1.,.5,0.);
       Ldir = normalize(vec3(c.x, c.y, 1. - 2. * dot(c, c)));
+      Lrgb2 = vec3(.8,.8,.8);
+      Ldir2 = normalize(vec3(.5 * sin(uTime), .5 * cos(uTime), -.8));
 
       // YOU NEED TO COMPUTE V AND W TO CREATE THE RAY FOR THIS PIXEL,
       // USING vPosition.x AND vPosition.y.
@@ -97,14 +103,14 @@
       W = vec3(vPosition.x, vPosition.y, 1.);  
 
       // YOU NEED TO SET x,y,z AND r FOR sphere.
-      spheres[0] = vec4(0.,0.,0.,.3);
-      spheres[1] = vec4(.8 * sin(uTime), 0., 0., .1);
+      spheres[0] = vec4(0.,0.,0.,.4);
+      spheres[1] = vec4(.8 * sin(uTime), 0., 0., .15);
 
       // YOU NEED TO SET r,g,b FOR material.
-      materials[0] = vec3(0.2, 0.1, .5 + .5 * sin(uTime));
-      materials[1] = vec3(0.1, 0.2, .5 + .5 * cos(uTime));
+      materials[0] = vec3(0.05, 0.1, .8 + .5 );
+      materials[1] = vec3(0.2, 0.4, .5 + .5 );
       vec3 color = vec3(0., 0., 0.04);
-      float t = 10000.;      
+      float t = 10000.;   
       for (int i = 0; i < 2; i++) {
         float currentT = raySphere(V, W, spheres[i]);
         if (currentT < t) {
