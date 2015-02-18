@@ -103,12 +103,12 @@
       W = vec3(vPosition.x, vPosition.y, 1.);  
 
       // YOU NEED TO SET x,y,z AND r FOR sphere.
-      spheres[0] = vec4(0.,0.,0.,.4);
-      spheres[1] = vec4(.8 * sin(uTime), -.1 * cos(uTime), 0., .15);
+      spheres[0] = vec4(c.x * uCursor.z,c.y * uCursor.z,0.,.4);
+      spheres[1] = vec4(.8 * sin(uTime) + spheres[0].x, -.15 * cos(uTime) + spheres[0].y, 0., .15);      
 
       // YOU NEED TO SET r,g,b FOR material.
-      materials[0] = vec3(0.05, 0.1, .8 + .5 );
-      materials[1] = vec3(0.2, 0.4, .5 + .5 );
+      materials[0] = vec3(0.05, 0.1, .8);
+      materials[1] = vec3(0.2, 0.4, .5);
       vec3 color = vec3(0., 0., 0.04);
       /*float t = 10000.;   
       for (int i = 0; i < 2; i++) {
