@@ -36,7 +36,7 @@
 
       // YOU NEED TO COMPUTE t, BY SETTING UP AND THEN SOLVING A QUADRATIC EQUATION.      
        vec3 rc = V - S.xyz;
-       float b = .5 * dot(W, rc);
+       float b = 2. * dot(W, rc);
        float c = dot(rc, rc) - (S.w * S.w);
        float disc = b * b - 4. * c; 
        if (disc < 0.0)
@@ -98,19 +98,19 @@
 
       vec3 V, W;
 
-      V = vec3(vPosition.x, vPosition.y, 0.);
+      V = vec3(0., 0., 0.);
 
-      W = vec3(vPosition.x, vPosition.y, 1.);  
+      W = normalize(vec3(vPosition.x, vPosition.y, -3.5));
 
       // YOU NEED TO SET x,y,z AND r FOR sphere.
-      spheres[0] = vec4(c.x * uCursor.z,c.y * uCursor.z,0.,.4);
-      spheres[1] = vec4(.8 * sin(uTime) + spheres[0].x, -.15 * cos(uTime) + spheres[0].y, 0., .15);      
+      spheres[0] = vec4(uCursor.x * uCursor.z, uCursor.y * uCursor.z, -1.4, .15);
+      spheres[1] = vec4(.3 * cos(.8 * uTime) + spheres[0].x, spheres[0].y, -1.4 + .3 *  sin(.8 * uTime), .05);      
 
       // YOU NEED TO SET r,g,b FOR material.
       materials[0] = vec3(0.05, 0.1, .8);
       materials[1] = vec3(0.2, 0.4, .5);
       vec3 color = vec3(0., 0., 0.04);
-      /*float t = 10000.;   
+      float t = 10000.;   
       for (int i = 0; i < 2; i++) {
         float currentT = raySphere(V, W, spheres[i]);
         if (currentT < t) {
@@ -118,26 +118,7 @@
           if (t < 10000.)
            color = shadeSphere(V + t * W, spheres[i], materials[i]);
         }                
-      }     */
-      bool toggle = false;
-      if (cos(uTime) > 0.) {
-        toggle = true;
-      }
-      if (toggle) {
-        float t = raySphere(V, W, spheres[0]);
-        if (t < 10000.)
-             color = shadeSphere(V + t * W, spheres[0], materials[0]);
-        t = raySphere(V, W, spheres[1]);
-        if (t < 10000.)
-             color = shadeSphere(V + t * W, spheres[1], materials[1]);
-      } else {
-        float t = raySphere(V, W, spheres[1]);
-        if (t < 10000.)
-             color = shadeSphere(V + t * W, spheres[1], materials[1]);
-        t = raySphere(V, W, spheres[0]);
-        if (t < 10000.)
-             color = shadeSphere(V + t * W, spheres[0], materials[0]);
-      }            
+      }                 
 
       gl_FragColor = vec4(sqrt(color), 1.); // Do Gamma correction.
    }
