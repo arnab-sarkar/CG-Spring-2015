@@ -103,7 +103,7 @@
       W = normalize(vec3(vPosition.x, vPosition.y, -3.5));
 
       // YOU NEED TO SET x,y,z AND r FOR sphere.
-      spheres[0] = vec4(uCursor.x * uCursor.z, uCursor.y * uCursor.z, -1.4, .15);
+      spheres[0] = vec4(uCursor.x * uCursor.z /2.5, uCursor.y * uCursor.z/2.5, -1.4, .15);
       spheres[1] = vec4(.3 * cos(.8 * uTime) + spheres[0].x, spheres[0].y, -1.4 + .3 *  sin(.8 * uTime), .05);      
 
       // YOU NEED TO SET r,g,b FOR material.
