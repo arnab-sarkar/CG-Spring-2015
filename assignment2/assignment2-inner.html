@@ -91,7 +91,7 @@
       Lrgb = vec3(1.,.5,0.);
       Ldir = normalize(vec3(c.x, c.y, 1. - 2. * dot(c, c)));
       Lrgb2 = vec3(.8,.8,.8);
-      Ldir2 = normalize(vec3(.5 * sin(uTime), .5 * cos(uTime), -.8));
+      Ldir2 = normalize(vec3(.5 * sin(uTime), .5 * cos(uTime), -.5));
 
       // YOU NEED TO COMPUTE V AND W TO CREATE THE RAY FOR THIS PIXEL,
       // USING vPosition.x AND vPosition.y.
