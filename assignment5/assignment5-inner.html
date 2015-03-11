@@ -57,6 +57,7 @@ Assignment 5 - Canvas
 <p>
 <p>Two sprockets rotating along the Z-axis.</p>    
 <p>They are translated along the Y-axis.</p>
+<p>The teeths are squares which have been scaled and translated.</p>
 <p>Click to have fun!</p>
 </td>
 </tr>
@@ -392,7 +393,7 @@ test
       g.lineWidth = 5;
       var x = this.cursor.x - this.width/2, y = this.cursor.y - this.width/2;
       
-      for(var i = 0; i < 12; i++) {
+      for(var i = 0; i < 15; i++) {
          var p = getCircle();
          var tm = translate(Math.sin(time * (i+1)/3)*.5, Math.cos(time * (i+1)/3)*.5, 1);
          p.applyTransformation(tm);
@@ -405,9 +406,9 @@ test
          var finalX = p.x + x + (i*10);
          var finalY = p.y + y + (i*10);
 
-         g.moveTo(finalX + (15 - i), finalY);
+         g.moveTo(finalX + (18 - i), finalY);
 
-         g.arc(finalX, finalY , 15 - i, 0, 2*Math.PI); 
+         g.arc(finalX, finalY , 18 - i, 0, 2*Math.PI); 
          this.cursor.z? g.fill(): g.stroke();
       }
    }
