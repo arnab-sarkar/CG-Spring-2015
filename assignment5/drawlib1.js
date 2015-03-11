@@ -105,3 +105,8 @@
       var circle = new Vector3(0,0,0);
       return circle;
    }
+
+   function getTriangle() {
+      var triangle = [new Vector3(0,1/Math.cbrt(3),0), new Vector3(0.5,-1/(2*Math.cbrt(3)),0), new Vector3(-0.5,-1/(2*Math.cbrt(3)),0)];
+      return triangle;
+   }
