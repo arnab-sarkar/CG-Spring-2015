@@ -1,0 +1,212 @@
+
+<!-- saved from url=(0051)http://mrl.nyu.edu/~perlin/courses/spring2015/0304/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><style type="text/css"></style></head><body data-feedly-mini="yes"><hr color="white" size="75"><table><tbody><tr><td width="75"></td><td>
+<font face="helvetica">
+<center><big><b>
+
+Assignment 6
+
+</b></big></center>
+<hr color="white" size="50">
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+<table>
+<tbody>
+
+<tr>
+<td><canvas id="canvas3" width="600" height="600"></canvas></td>
+<td width="50"></td>
+<td valign="top">
+
+</td>
+</tr>
+
+<tr>
+<td><canvas id="canvas4" width="600" height="600"></canvas></td>
+<td width="50"></td>
+<td valign="top">
+ 
+</td>
+</tr>
+
+<tr>
+<td><canvas id="canvas5" width="600" height="600"></canvas></td>
+<td width="50"></td>
+<td valign="top">
+ 
+</td>
+</tr>
+
+</tbody></table>
+
+<script src="./drawlib1.js"></script>
+<script>
+   
+
+   var canvas = initCanvas('canvas3');
+   canvas.update = function(g) {
+      g.strokeStyle = 'blue';
+      g.beginPath();
+      g.moveTo(0,0);
+      g.lineTo(this.width,0);
+      g.lineTo(this.width,this.height);
+      g.lineTo(0,this.height);
+      g.lineTo(0,0);
+      g.stroke();
+      var pers = perspective(0);
+      //var rot = rotateZ(time);
+      g.strokeStyle = 'rgb(0,200,0)';
+      var sc= scale(0.1,0.1,0.1);
+      var box = [new Vector3(),new Vector3(),new Vector3(),new Vector3()];
+      var nu = 40;
+      var nv = 20;
+      for(var l=0;l<1;l+=1/nv){
+         for(var u=0;u<1;u+=1/nu){
+           for(var v=0;v<1;v+=1/nv){
+               box[0] = nautilus(u,v+l);
+               box[1] = nautilus(u+1/nu,v+l);
+               box[2] = nautilus(u+1/nu,v+l+1/nv);
+               box[3] = nautilus(u,v+l+1/nv);
+            }
+            //box[0].applyTransformation(rot);
+            box[0].applyTransformation(rotateX(10));
+            box[0].applyTransformation(sc);
+            box[0].perspective(pers);
+            box[0].pointToPixel();
+            g.beginPath();
+            g.moveTo(box[0].x,box[0].y);
+            for(var i=1;i<4;i++){
+              // box[i].applyTransformation(rot);
+               box[i].applyTransformation(rotateX(10));
+               box[i].applyTransformation(sc);
+               box[i].perspective(pers);
+               box[i].pointToPixel();
+               g.lineTo(box[i].x,box[i].y);               
+            }
+            g.lineTo(box[0].x,box[0].y);
+            g.stroke();
+         }
+      }
+   }
+
+   var canvas = initCanvas('canvas4');
+   canvas.update = function(g) {
+      g.strokeStyle = 'blue';
+      g.beginPath();
+      g.moveTo(0,0);
+      g.lineTo(this.width,0);
+      g.lineTo(this.width,this.height);
+      g.lineTo(0,this.height);
+      g.lineTo(0,0);
+      g.stroke();
+      var pers = perspective(0);
+      var tr = translate(0,12,0);
+      //var rot = rotateZ(time);
+      g.strokeStyle = 'rgb(255,0,0)';
+      var sc= scale(0.4,0.4,0.4);
+      var box = [new Vector3(),new Vector3(),new Vector3(),new Vector3()];
+      var nu = 40;
+      var nv = 20;
+      for(var l=0;l<1;l+=1/nv){
+         for(var u=0;u<1;u+=1/nu){
+           for(var v=0;v<1;v+=1/nv){
+               box[0] = dini(u,v+l);
+               box[1] = dini(u+1/nu,v+l);
+               box[2] = dini(u+1/nu,v+l+1/nv);
+               box[3] = dini(u,v+l+1/nv);
+            }
+            box[0].applyTransformation(tr);            
+            box[0].applyTransformation(rotateX(5));
+            box[0].applyTransformation(sc);
+            box[0].perspective(pers);
+            box[0].pointToPixel();
+            g.beginPath();
+            g.moveTo(box[0].x,box[0].y);
+            for(var i=1;i<4;i++){
+               box[i].applyTransformation(tr);               
+               box[i].applyTransformation(rotateX(5));
+               box[i].applyTransformation(sc);
+               box[i].perspective(pers);
+               box[i].pointToPixel();
+               g.lineTo(box[i].x,box[i].y);               
+            }
+            g.lineTo(box[0].x,box[0].y);
+            g.stroke();
+         }
+      }
+   }
+
+   var canvas = initCanvas('canvas5');
+   canvas.update = function(g) {
+      g.strokeStyle = 'blue';
+      g.beginPath();
+      g.moveTo(0,0);
+      g.lineTo(this.width,0);
+      g.lineTo(this.width,this.height);
+      g.lineTo(0,this.height);
+      g.lineTo(0,0);
+      g.stroke();
+      var pers = perspective(0);
+      var tr = translate(0,0,0);
+      //var rot = rotateZ(time);
+      g.strokeStyle = 'rgb(49,79,79)';
+      var sc= scale(0.3,0.3,0.3);
+      var box = [new Vector3(),new Vector3(),new Vector3(),new Vector3()];
+      var nu = 40;
+      var nv = 20;
+      for(var l=0;l<1;l+=1/nv){
+         for(var u=0;u<1;u+=1/nu){
+           for(var v=0;v<1;v+=1/nv){
+               box[0] = toroid(u,v+l);
+               box[1] = toroid(u+1/nu,v+l);
+               box[2] = toroid(u+1/nu,v+l+1/nv);
+               box[3] = toroid(u,v+l+1/nv);
+            }
+            box[0].applyTransformation(tr);            
+            box[0].applyTransformation(rotateX(5));
+            box[0].applyTransformation(sc);
+            box[0].perspective(pers);
+            box[0].pointToPixel();
+            g.beginPath();
+            g.moveTo(box[0].x,box[0].y);
+            for(var i=1;i<4;i++){
+               box[i].applyTransformation(tr);               
+               box[i].applyTransformation(rotateX(5));
+               box[i].applyTransformation(sc);
+               box[i].perspective(pers);
+               box[i].pointToPixel();
+               g.lineTo(box[i].x,box[i].y);               
+            }
+            g.lineTo(box[0].x,box[0].y);
+            g.stroke();
+         }
+      }
+   }
+
+
+</script>
+
+</p><p>&nbsp;</p><p></p><hr>&nbsp;<p>
+
+
+</td>
+</tr></tbody></table>
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<hr color="white" size="1000">
+
+&nbsp;
+</body></html>

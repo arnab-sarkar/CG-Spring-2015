@@ -1,0 +1,388 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty 1.0 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>CG Arnab Sarkar</title>
+        <link rel="icon" href="images/icon.png">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+	</head>
+	<body class="right-sidebar loading">
+	
+		<!-- Header -->
+			<header id="header">
+				<h1 id="logo"><a href="index.html">HOME</a></h1>
+				<nav id="nav">
+					<ul>
+						<li class="current"><a href="Arnab-Sarkar-Resume.pdf" target="_blank">ARNAB SARKAR</a></li>
+						<li class="submenu">
+							<a href="">Assignments</a>
+							<ul>
+								<li><a href="assignment1.html">Assignment 1</a></li>
+								<li><a href="assignment2.html">Assignment 2</a></li>
+								<li class="submenu">
+									<a href="">Assignment 3</a>
+									<ul>
+										<li><a href="assignment3a.html">A (Phong)</a></li>
+										<li><a href="assignment3b.html">B (Blinn)</a></li>
+										<li><a href="assignment3c.html">C (Boolean Intersection)</a></li>										
+									</ul>
+								</li>
+								<li class="submenu">
+									<a href="">Assignment 4</a>
+									<ul>
+										<li><a href="assignment4a.html">A (Cube)</a></li>
+										<li><a href="assignment4b.html">B (Tetrahedron)</a></li>										
+									</ul>
+								</li>
+								<li><a href="assignment5.html">Assignment 5</a></li>	
+								<li class="submenu">
+									<a href="">Assignment 6</a>
+									<ul>
+										<li><a href="assignment6a.html">A (Perspective)</a></li>
+										<li><a href="assignment6b.html">B (Sphere/Super Sphere)</a></li>
+										<li><a href="assignment6c.html">C (Fun With Shapes)</a></li>										
+									</ul>
+								</li>						
+							</ul>
+						</li>						
+					</ul>
+				</nav>
+			</header>
+		
+		<!-- Main -->
+			<article id="main">
+
+				<header class="special container">
+					<span class="icon fa-laptop"></span>
+					<h2><strong>Assignment 6 A</strong></h2>
+					<p>Perspective</p>
+				</header>
+					
+				<!-- One -->
+					<section class="wrapper style4 container">
+					
+						<div class="row oneandhalf">
+							<div class="8u">
+								
+								<!-- Content -->
+									<div class="content">
+										<section>
+											<!--a href="#" class="image feature"><img src="images/pic03.jpg" alt="" /></a-->
+											<div> 
+											    <canvas id="canvas1" width="600" height="600"></canvas>
+											 </div>		                                  				
+										</section>
+									</div>
+	
+							</div>
+							<div class="4u">
+								
+								<!-- Sidebar -->
+									<div class="sidebar">
+										<section>
+											<header>
+												<h3>ROOM VIEW</h3>
+											</header>																	
+										</section>
+
+										<section>
+											<p>Perspective View of the room.</p>		
+
+											<p>The view in changes over time to move in and out.</p>
+										
+											<p>Click to have fun!</p>
+
+                                 			<p>Click <a href="assignment6/assignment6-inner-room.html" target="_blank">here</a> to open in new tab.</p>
+										</section>
+									</div>
+
+							</div>
+						</div>					
+					</section>	
+
+						
+
+			</article>
+
+		<!-- Footer -->
+		<footer id="footer">
+			
+				<ul class="icons">
+					<li><a href="https://twitter.com/arnabsarkar1111" target="_blank" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
+					<li><a href="https://www.facebook.com/arnabsarkar1111" target="_blank" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
+					<li><a href="https://www.linkedin.com/pub/arnab-sarkar/7a/ab0/795" target="_blank" class="icon circle fa-linkedin"><span class="label">Google+</span></a></li>
+					<li><a href="https://github.com/arnab-sarkar" target="_blank" class="icon circle fa-github"><span class="label">Github</span></a></li>
+					<!--li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li-->
+				</ul>			
+			</footer>
+
+			<script src="./assignment6/drawlib1.js"></script>
+			<script>
+			var canvas = initCanvas('canvas1');
+   canvas.update = function(g) {
+      g.strokeStyle = 'blue';
+      g.beginPath();
+      g.moveTo(0,0);
+      g.lineTo(this.width,0);
+      g.lineTo(this.width,this.height);
+      g.lineTo(0,this.height);
+      g.lineTo(0,0);
+      g.stroke();      
+      
+      var x = this.cursor.x - this.width/2, y = this.cursor.y - this.width/2;
+   
+      g.strokeStyle = 'black'; 
+      var cube = getCube();  
+      g.beginPath();      
+      var tr = translate(0,0,.1 + .1 * Math.sin(time));      
+      var sc1 = scale(5,5,5);
+      var pers = this.cursor.z ? -3.4:-2.4;
+      var p = perspective(pers);
+      var rot = rotateZ(Math.PI/2*(time/2)); 
+      for(var i = 0; i < 8; i++) {         
+         cube[i].applyTransformation(sc1);
+         cube[i].applyTransformation(tr);
+         //cube[i].applyTransformation(rot);
+         cube[i].perspective(p);
+         cube[i].pointToPixel();
+      }      
+      g.moveTo(cube[0].x, cube[0].y);
+      g.lineTo(cube[1].x, cube[1].y);
+      g.lineTo(cube[3].x, cube[3].y);
+      g.lineTo(cube[2].x, cube[2].y);
+      g.lineTo(cube[0].x, cube[0].y);
+      g.lineTo(cube[4].x, cube[4].y);
+      g.lineTo(cube[5].x, cube[5].y);
+      g.lineTo(cube[7].x, cube[7].y);
+      g.lineTo(cube[6].x, cube[6].y);
+      g.lineTo(cube[4].x, cube[4].y);
+      g.moveTo(cube[1].x, cube[1].y);
+      g.lineTo(cube[5].x, cube[5].y);
+      g.moveTo(cube[2].x, cube[2].y);
+      g.lineTo(cube[6].x, cube[6].y);
+      g.moveTo(cube[3].x, cube[3].y);
+      g.lineTo(cube[7].x, cube[7].y);
+      g.stroke();  
+
+      var windowFrame1 = getSquare();
+      for(var i = 0; i < 4; i++) {         
+         windowFrame1[i].applyTransformation(tr);
+         windowFrame1[i].perspective(p);
+         windowFrame1[i].pointToPixel();
+      } 
+      //g.beginPath();
+      g.moveTo(windowFrame1[0].x, windowFrame1[0].y);
+      g.lineTo(windowFrame1[1].x, windowFrame1[1].y);
+      g.lineTo(windowFrame1[3].x, windowFrame1[3].y);
+      g.lineTo(windowFrame1[2].x, windowFrame1[2].y);
+      g.lineTo(windowFrame1[0].x, windowFrame1[0].y);
+      g.stroke();
+
+     var windowPaneTrFactorX = .042;
+     var windowPaneTrFactorY = .042;
+     for(var j = 0; j < 4; j++) {
+         var windowPaneSc = scale(.4,.4,1);
+         var windowPaneTr = translate(windowPaneTrFactorX,windowPaneTrFactorY,0);
+         var windowPane1 = getSquare();
+         for(var i = 0; i < 4; i++) {         
+            windowPane1[i].applyTransformation(windowPaneSc);
+            windowPane1[i].applyTransformation(windowPaneTr);
+            windowPane1[i].applyTransformation(tr);       
+            windowPane1[i].perspective(p);
+            windowPane1[i].pointToPixel();
+         } 
+         g.beginPath();
+         g.fillStyle = 'rgb(0,191,255)';
+        // g.lineWidth=0.2;
+         g.moveTo(windowPane1[0].x, windowPane1[0].y);
+         g.lineTo(windowPane1[1].x, windowPane1[1].y);
+         g.lineTo(windowPane1[3].x, windowPane1[3].y);
+         g.lineTo(windowPane1[2].x, windowPane1[2].y);
+         g.lineTo(windowPane1[0].x, windowPane1[0].y);
+         g.stroke();
+         g.fill();         
+         if (j%2 == 0) {
+            windowPaneTrFactorX *= -1;
+         }    
+         //if (j%2 == 0) {     
+            windowPaneTrFactorY *= -1;        
+         //}
+      }
+
+      var tv = getCube();  
+      var tvSc = scale(.03,.7,1.1);
+      var tvTr = translate(.35,-.02,0);
+      g.beginPath();      
+      for(var i = 0; i < 8; i++) {         
+         tv[i].applyTransformation(tvSc);         
+         tv[i].applyTransformation(tvTr);
+         tv[i].applyTransformation(tr);
+         //cube[i].applyTransformation(rot);
+         tv[i].perspective(p);
+         tv[i].pointToPixel();
+      }      
+      g.moveTo(tv[0].x, tv[0].y);
+      g.lineTo(tv[1].x, tv[1].y);
+      g.lineTo(tv[3].x, tv[3].y);
+      g.lineTo(tv[2].x, tv[2].y);
+      g.lineTo(tv[0].x, tv[0].y);
+      g.lineTo(tv[4].x, tv[4].y);
+      g.lineTo(tv[5].x, tv[5].y);
+      g.lineTo(tv[7].x, tv[7].y);
+      g.lineTo(tv[6].x, tv[6].y);
+      g.lineTo(tv[4].x, tv[4].y);      
+      g.moveTo(tv[1].x, tv[1].y);
+      g.lineTo(tv[5].x, tv[5].y);
+      g.moveTo(tv[2].x, tv[2].y);
+      g.lineTo(tv[6].x, tv[6].y);
+      g.moveTo(tv[3].x, tv[3].y);
+      g.lineTo(tv[7].x, tv[7].y);
+      g.stroke();       
+      
+      var couch1 = getCube();  
+      var couch1Sc = scale(1.2,.7,1.2);
+      var couch1Tr = translate(-.25,-.3,0);
+      g.beginPath();      
+      for(var i = 0; i < 8; i++) {         
+         couch1[i].applyTransformation(couch1Sc);         
+         couch1[i].applyTransformation(couch1Tr);
+         couch1[i].applyTransformation(tr);
+         //cube[i].applyTransformation(rot);
+         couch1[i].perspective(p);
+         couch1[i].pointToPixel();
+      }      
+      g.moveTo(couch1[0].x, couch1[0].y);
+      g.lineTo(couch1[1].x, couch1[1].y);
+      g.lineTo(couch1[3].x, couch1[3].y);
+      g.lineTo(couch1[2].x, couch1[2].y);
+      g.lineTo(couch1[0].x, couch1[0].y);
+      g.lineTo(couch1[4].x, couch1[4].y);
+      g.lineTo(couch1[5].x, couch1[5].y);
+      g.lineTo(couch1[7].x, couch1[7].y);
+      g.lineTo(couch1[6].x, couch1[6].y);
+      g.lineTo(couch1[4].x, couch1[4].y);
+      g.moveTo(couch1[1].x, couch1[1].y);
+      g.lineTo(couch1[5].x, couch1[5].y);
+      g.moveTo(couch1[2].x, couch1[2].y);
+      g.lineTo(couch1[6].x, couch1[6].y);
+      g.moveTo(couch1[3].x, couch1[3].y);
+      g.lineTo(couch1[7].x, couch1[7].y);
+      g.stroke();  
+      
+      var couch2Sc = scale(1.2,1,.2);
+      var couch2Tr = translate(-.25,-.27,0);         
+      for(var j = 0; j < 2; j++) {
+         var couch2 = getCube();  
+         for(var i = 0; i < 8; i++) {         
+            couch2[i].applyTransformation(couch2Sc);            
+            couch2[i].applyTransformation(couch2Tr);
+            couch2[i].applyTransformation(tr);
+            //cube[i].applyTransformation(rot);
+            couch2[i].perspective(p);
+            couch2[i].pointToPixel();
+         }  
+         g.beginPath();      
+         g.moveTo(couch2[0].x, couch2[0].y);
+         g.lineTo(couch2[1].x, couch2[1].y);
+         g.lineTo(couch2[3].x, couch2[3].y);
+         g.lineTo(couch2[2].x, couch2[2].y);
+         g.lineTo(couch2[0].x, couch2[0].y);
+         g.lineTo(couch2[4].x, couch2[4].y);
+         g.lineTo(couch2[5].x, couch2[5].y);
+         g.lineTo(couch2[7].x, couch2[7].y);
+         g.lineTo(couch2[6].x, couch2[6].y);
+         g.lineTo(couch2[4].x, couch2[4].y);
+         g.moveTo(couch2[1].x, couch2[1].y);
+         g.lineTo(couch2[5].x, couch2[5].y);
+         g.moveTo(couch2[2].x, couch2[2].y);
+         g.lineTo(couch2[6].x, couch2[6].y);
+         g.moveTo(couch2[3].x, couch2[3].y);
+         g.lineTo(couch2[7].x, couch2[7].y);
+         g.stroke();
+
+         couch2Tr = translate(-.25,-.27,-.1);
+      }
+
+      var couch3 = getCube();  
+      var couch3Sc = scale(.2,.7,1.2);
+      var couch3Tr = translate(-.35,-.16,0);
+      g.beginPath();      
+      for(var i = 0; i < 8; i++) {         
+         couch3[i].applyTransformation(couch3Sc);         
+         couch3[i].applyTransformation(couch3Tr);
+         couch3[i].applyTransformation(tr);
+         //cube[i].applyTransformation(rot);
+         couch3[i].perspective(p);
+         couch3[i].pointToPixel();
+      }      
+      g.moveTo(couch3[0].x, couch3[0].y);
+      g.lineTo(couch3[1].x, couch3[1].y);
+      g.lineTo(couch3[3].x, couch3[3].y);
+      g.lineTo(couch3[2].x, couch3[2].y);
+      g.lineTo(couch3[0].x, couch3[0].y);
+      g.lineTo(couch3[4].x, couch3[4].y);
+      g.lineTo(couch3[5].x, couch3[5].y);
+      g.lineTo(couch3[7].x, couch3[7].y);
+      g.lineTo(couch3[6].x, couch3[6].y);
+      g.lineTo(couch3[4].x, couch3[4].y);      
+      g.moveTo(couch3[1].x, couch3[1].y);
+      g.lineTo(couch3[5].x, couch3[5].y);
+      g.moveTo(couch3[2].x, couch3[2].y);
+      g.lineTo(couch3[6].x, couch3[6].y);
+      g.moveTo(couch3[3].x, couch3[3].y);
+      g.lineTo(couch3[7].x, couch3[7].y);
+      g.stroke(); 
+
+      var table1 = getCube();  
+      var table1Sc = scale(.7,.5,1.2);
+      var table1Tr = translate(.3,-.32,0);
+      g.beginPath();      
+      for(var i = 0; i < 8; i++) {         
+         table1[i].applyTransformation(table1Sc);         
+         table1[i].applyTransformation(table1Tr);
+         table1[i].applyTransformation(tr);
+         //cube[i].applyTransformation(rot);
+         table1[i].perspective(p);
+         table1[i].pointToPixel();
+      }      
+      g.moveTo(table1[0].x, table1[0].y);
+      g.lineTo(table1[1].x, table1[1].y);
+      g.lineTo(table1[3].x, table1[3].y);
+      g.lineTo(table1[2].x, table1[2].y);
+      g.lineTo(table1[0].x, table1[0].y);
+      g.lineTo(table1[4].x, table1[4].y);
+      g.lineTo(table1[5].x, table1[5].y);
+      g.lineTo(table1[7].x, table1[7].y);
+      g.lineTo(table1[6].x, table1[6].y);
+      g.lineTo(table1[4].x, table1[4].y);
+      g.moveTo(table1[1].x, table1[1].y);
+      g.lineTo(table1[5].x, table1[5].y);
+      g.moveTo(table1[2].x, table1[2].y);
+      g.lineTo(table1[6].x, table1[6].y);
+      g.moveTo(table1[3].x, table1[3].y);
+      g.lineTo(table1[7].x, table1[7].y);
+      g.stroke(); 
+
+   }
+		   
+		   </script> 
+	</body>
+</html>

@@ -1,0 +1,316 @@
+
+<!-- saved from url=(0051)http://mrl.nyu.edu/~perlin/courses/spring2015/0304/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><style type="text/css"></style></head><body data-feedly-mini="yes"><hr color="white" size="75"><table><tbody><tr><td width="75"></td><td>
+<font face="helvetica">
+<center><big><b>
+
+Assignment 6
+
+</b></big></center>
+<hr color="white" size="50">
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+<table>
+<tbody><tr>
+<td><canvas id="canvas1" width="600" height="600"></canvas></td>
+<td width="50"></td>
+<td valign="top">
+Room
+<p>
+Perspective view of a Room.
+</p></td>
+</tr>
+
+</tbody></table>
+
+<script src="./drawlib1.js"></script>
+<script>
+   var canvas = initCanvas('canvas1');
+   canvas.update = function(g) {
+      g.strokeStyle = 'blue';
+      g.beginPath();
+      g.moveTo(0,0);
+      g.lineTo(this.width,0);
+      g.lineTo(this.width,this.height);
+      g.lineTo(0,this.height);
+      g.lineTo(0,0);
+      g.stroke();      
+      
+      var x = this.cursor.x - this.width/2, y = this.cursor.y - this.width/2;
+         
+     /* var tr = translate(.1,.1,0);
+      var square = getSquare();
+      g.strokeStyle = 'black'; 
+      for(var i = 0; i < 4; i++) {
+         square[i].applyTransformation(tr);
+         square[i].perspective(-2.4);
+         square[i].pointToPixel();
+      } 
+      g.beginPath();
+      g.moveTo(square[0].x, square[0].y);
+      g.lineTo(square[1].x, square[1].y);
+      g.lineTo(square[3].x, square[3].y);
+      g.lineTo(square[2].x, square[2].y);
+      g.lineTo(square[0].x, square[0].y);
+      g.stroke();*/
+      g.strokeStyle = 'black'; 
+      var cube = getCube();  
+      g.beginPath();      
+      var tr = translate(0,0,.1 + .1 * Math.sin(time));      
+      var sc1 = scale(5,5,5);
+      var pers = this.cursor.z ? -3.4:-2.4;
+      var p = perspective(pers);
+      var rot = rotateZ(Math.PI/2*(time/2)); 
+      for(var i = 0; i < 8; i++) {         
+         cube[i].applyTransformation(sc1);
+         cube[i].applyTransformation(tr);
+         //cube[i].applyTransformation(rot);
+         cube[i].perspective(p);
+         cube[i].pointToPixel();
+      }      
+      g.moveTo(cube[0].x, cube[0].y);
+      g.lineTo(cube[1].x, cube[1].y);
+      g.lineTo(cube[3].x, cube[3].y);
+      g.lineTo(cube[2].x, cube[2].y);
+      g.lineTo(cube[0].x, cube[0].y);
+      g.lineTo(cube[4].x, cube[4].y);
+      g.lineTo(cube[5].x, cube[5].y);
+      g.lineTo(cube[7].x, cube[7].y);
+      g.lineTo(cube[6].x, cube[6].y);
+      g.lineTo(cube[4].x, cube[4].y);
+      g.moveTo(cube[1].x, cube[1].y);
+      g.lineTo(cube[5].x, cube[5].y);
+      g.moveTo(cube[2].x, cube[2].y);
+      g.lineTo(cube[6].x, cube[6].y);
+      g.moveTo(cube[3].x, cube[3].y);
+      g.lineTo(cube[7].x, cube[7].y);
+      g.stroke();  
+
+      var windowFrame1 = getSquare();
+      for(var i = 0; i < 4; i++) {         
+         windowFrame1[i].applyTransformation(tr);
+         windowFrame1[i].perspective(p);
+         windowFrame1[i].pointToPixel();
+      } 
+      //g.beginPath();
+      g.moveTo(windowFrame1[0].x, windowFrame1[0].y);
+      g.lineTo(windowFrame1[1].x, windowFrame1[1].y);
+      g.lineTo(windowFrame1[3].x, windowFrame1[3].y);
+      g.lineTo(windowFrame1[2].x, windowFrame1[2].y);
+      g.lineTo(windowFrame1[0].x, windowFrame1[0].y);
+      g.stroke();
+
+     var windowPaneTrFactorX = .042;
+     var windowPaneTrFactorY = .042;
+     for(var j = 0; j < 4; j++) {
+         var windowPaneSc = scale(.4,.4,1);
+         var windowPaneTr = translate(windowPaneTrFactorX,windowPaneTrFactorY,0);
+         var windowPane1 = getSquare();
+         for(var i = 0; i < 4; i++) {         
+            windowPane1[i].applyTransformation(windowPaneSc);
+            windowPane1[i].applyTransformation(windowPaneTr);
+            windowPane1[i].applyTransformation(tr);       
+            windowPane1[i].perspective(p);
+            windowPane1[i].pointToPixel();
+         } 
+         g.beginPath();
+         g.fillStyle = 'rgb(0,191,255)';
+        // g.lineWidth=0.2;
+         g.moveTo(windowPane1[0].x, windowPane1[0].y);
+         g.lineTo(windowPane1[1].x, windowPane1[1].y);
+         g.lineTo(windowPane1[3].x, windowPane1[3].y);
+         g.lineTo(windowPane1[2].x, windowPane1[2].y);
+         g.lineTo(windowPane1[0].x, windowPane1[0].y);
+         g.stroke();
+         g.fill();         
+         if (j%2 == 0) {
+            windowPaneTrFactorX *= -1;
+         }    
+         //if (j%2 == 0) {     
+            windowPaneTrFactorY *= -1;        
+         //}
+      }
+
+      var tv = getCube();  
+      var tvSc = scale(.03,.7,1.1);
+      var tvTr = translate(.35,-.02,0);
+      g.beginPath();      
+      for(var i = 0; i < 8; i++) {         
+         tv[i].applyTransformation(tvSc);         
+         tv[i].applyTransformation(tvTr);
+         tv[i].applyTransformation(tr);
+         //cube[i].applyTransformation(rot);
+         tv[i].perspective(p);
+         tv[i].pointToPixel();
+      }      
+      g.moveTo(tv[0].x, tv[0].y);
+      g.lineTo(tv[1].x, tv[1].y);
+      g.lineTo(tv[3].x, tv[3].y);
+      g.lineTo(tv[2].x, tv[2].y);
+      g.lineTo(tv[0].x, tv[0].y);
+      g.lineTo(tv[4].x, tv[4].y);
+      g.lineTo(tv[5].x, tv[5].y);
+      g.lineTo(tv[7].x, tv[7].y);
+      g.lineTo(tv[6].x, tv[6].y);
+      g.lineTo(tv[4].x, tv[4].y);      
+      g.moveTo(tv[1].x, tv[1].y);
+      g.lineTo(tv[5].x, tv[5].y);
+      g.moveTo(tv[2].x, tv[2].y);
+      g.lineTo(tv[6].x, tv[6].y);
+      g.moveTo(tv[3].x, tv[3].y);
+      g.lineTo(tv[7].x, tv[7].y);
+      g.stroke();       
+      
+      var couch1 = getCube();  
+      var couch1Sc = scale(1.2,.7,1.2);
+      var couch1Tr = translate(-.25,-.3,0);
+      g.beginPath();      
+      for(var i = 0; i < 8; i++) {         
+         couch1[i].applyTransformation(couch1Sc);         
+         couch1[i].applyTransformation(couch1Tr);
+         couch1[i].applyTransformation(tr);
+         //cube[i].applyTransformation(rot);
+         couch1[i].perspective(p);
+         couch1[i].pointToPixel();
+      }      
+      g.moveTo(couch1[0].x, couch1[0].y);
+      g.lineTo(couch1[1].x, couch1[1].y);
+      g.lineTo(couch1[3].x, couch1[3].y);
+      g.lineTo(couch1[2].x, couch1[2].y);
+      g.lineTo(couch1[0].x, couch1[0].y);
+      g.lineTo(couch1[4].x, couch1[4].y);
+      g.lineTo(couch1[5].x, couch1[5].y);
+      g.lineTo(couch1[7].x, couch1[7].y);
+      g.lineTo(couch1[6].x, couch1[6].y);
+      g.lineTo(couch1[4].x, couch1[4].y);
+      g.moveTo(couch1[1].x, couch1[1].y);
+      g.lineTo(couch1[5].x, couch1[5].y);
+      g.moveTo(couch1[2].x, couch1[2].y);
+      g.lineTo(couch1[6].x, couch1[6].y);
+      g.moveTo(couch1[3].x, couch1[3].y);
+      g.lineTo(couch1[7].x, couch1[7].y);
+      g.stroke();  
+      
+      var couch2Sc = scale(1.2,1,.2);
+      var couch2Tr = translate(-.25,-.27,0);         
+      for(var j = 0; j < 2; j++) {
+         var couch2 = getCube();  
+         for(var i = 0; i < 8; i++) {         
+            couch2[i].applyTransformation(couch2Sc);            
+            couch2[i].applyTransformation(couch2Tr);
+            couch2[i].applyTransformation(tr);
+            //cube[i].applyTransformation(rot);
+            couch2[i].perspective(p);
+            couch2[i].pointToPixel();
+         }  
+         g.beginPath();      
+         g.moveTo(couch2[0].x, couch2[0].y);
+         g.lineTo(couch2[1].x, couch2[1].y);
+         g.lineTo(couch2[3].x, couch2[3].y);
+         g.lineTo(couch2[2].x, couch2[2].y);
+         g.lineTo(couch2[0].x, couch2[0].y);
+         g.lineTo(couch2[4].x, couch2[4].y);
+         g.lineTo(couch2[5].x, couch2[5].y);
+         g.lineTo(couch2[7].x, couch2[7].y);
+         g.lineTo(couch2[6].x, couch2[6].y);
+         g.lineTo(couch2[4].x, couch2[4].y);
+         g.moveTo(couch2[1].x, couch2[1].y);
+         g.lineTo(couch2[5].x, couch2[5].y);
+         g.moveTo(couch2[2].x, couch2[2].y);
+         g.lineTo(couch2[6].x, couch2[6].y);
+         g.moveTo(couch2[3].x, couch2[3].y);
+         g.lineTo(couch2[7].x, couch2[7].y);
+         g.stroke();
+
+         couch2Tr = translate(-.25,-.27,-.1);
+      }
+
+      var couch3 = getCube();  
+      var couch3Sc = scale(.2,.7,1.2);
+      var couch3Tr = translate(-.35,-.16,0);
+      g.beginPath();      
+      for(var i = 0; i < 8; i++) {         
+         couch3[i].applyTransformation(couch3Sc);         
+         couch3[i].applyTransformation(couch3Tr);
+         couch3[i].applyTransformation(tr);
+         //cube[i].applyTransformation(rot);
+         couch3[i].perspective(p);
+         couch3[i].pointToPixel();
+      }      
+      g.moveTo(couch3[0].x, couch3[0].y);
+      g.lineTo(couch3[1].x, couch3[1].y);
+      g.lineTo(couch3[3].x, couch3[3].y);
+      g.lineTo(couch3[2].x, couch3[2].y);
+      g.lineTo(couch3[0].x, couch3[0].y);
+      g.lineTo(couch3[4].x, couch3[4].y);
+      g.lineTo(couch3[5].x, couch3[5].y);
+      g.lineTo(couch3[7].x, couch3[7].y);
+      g.lineTo(couch3[6].x, couch3[6].y);
+      g.lineTo(couch3[4].x, couch3[4].y);      
+      g.moveTo(couch3[1].x, couch3[1].y);
+      g.lineTo(couch3[5].x, couch3[5].y);
+      g.moveTo(couch3[2].x, couch3[2].y);
+      g.lineTo(couch3[6].x, couch3[6].y);
+      g.moveTo(couch3[3].x, couch3[3].y);
+      g.lineTo(couch3[7].x, couch3[7].y);
+      g.stroke(); 
+
+      var table1 = getCube();  
+      var table1Sc = scale(.7,.5,1.2);
+      var table1Tr = translate(.3,-.32,0);
+      g.beginPath();      
+      for(var i = 0; i < 8; i++) {         
+         table1[i].applyTransformation(table1Sc);         
+         table1[i].applyTransformation(table1Tr);
+         table1[i].applyTransformation(tr);
+         //cube[i].applyTransformation(rot);
+         table1[i].perspective(p);
+         table1[i].pointToPixel();
+      }      
+      g.moveTo(table1[0].x, table1[0].y);
+      g.lineTo(table1[1].x, table1[1].y);
+      g.lineTo(table1[3].x, table1[3].y);
+      g.lineTo(table1[2].x, table1[2].y);
+      g.lineTo(table1[0].x, table1[0].y);
+      g.lineTo(table1[4].x, table1[4].y);
+      g.lineTo(table1[5].x, table1[5].y);
+      g.lineTo(table1[7].x, table1[7].y);
+      g.lineTo(table1[6].x, table1[6].y);
+      g.lineTo(table1[4].x, table1[4].y);
+      g.moveTo(table1[1].x, table1[1].y);
+      g.lineTo(table1[5].x, table1[5].y);
+      g.moveTo(table1[2].x, table1[2].y);
+      g.lineTo(table1[6].x, table1[6].y);
+      g.moveTo(table1[3].x, table1[3].y);
+      g.lineTo(table1[7].x, table1[7].y);
+      g.stroke(); 
+
+   }
+
+
+</script>
+
+</p><p>&nbsp;</p><p></p><hr>&nbsp;<p>
+
+
+</td>
+</tr></tbody></table>
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<hr color="white" size="1000">
+
+&nbsp;
+</body></html>

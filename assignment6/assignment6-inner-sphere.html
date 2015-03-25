@@ -1,0 +1,104 @@
+
+<!-- saved from url=(0051)http://mrl.nyu.edu/~perlin/courses/spring2015/0304/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><style type="text/css"></style></head><body data-feedly-mini="yes"><hr color="white" size="75"><table><tbody><tr><td width="75"></td><td>
+<font face="helvetica">
+<center><big><b>
+
+Assignment 6
+
+</b></big></center>
+<hr color="white" size="50">
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+<table>
+<tbody>
+
+<tr>
+<td><canvas id="canvas3" width="600" height="600"></canvas></td>
+<td width="50"></td>
+<td valign="top">
+
+</td>
+</tr>
+
+
+</tbody></table>
+
+<script src="./drawlib1.js"></script>
+<script>
+   var canvas = initCanvas('canvas3');
+   canvas.update = function(g) {
+      g.strokeStyle = 'blue';
+      g.beginPath();
+      g.moveTo(0,0);
+      g.lineTo(this.width,0);
+      g.lineTo(this.width,this.height);
+      g.lineTo(0,this.height);
+      g.lineTo(0,0);
+      g.stroke();
+      var pers = perspective(0);
+      //var rot = rotateZ(time);
+      g.strokeStyle = 'rgb(0,255,255)';
+      var sc= scale(0.5,0.5,0.5);
+      var box = [new Vector3(),new Vector3(),new Vector3(),new Vector3()];
+      var nu = 10 + 8 * Math.sin(time * .5);
+      var nv = 10 + 8 * Math.sin(time * .5);
+      for(var l=0;l<1;l+=1/nv){
+         for(var u=0;u<1;u+=1/nu){
+           for(var v=0;v<1;v+=1/nv){
+               box[0] = convertUVtoXY(u,v+l,this.cursor.z);
+               box[1] = convertUVtoXY(u+1/nu,v+l,this.cursor.z);
+               box[2] = convertUVtoXY(u+1/nu,v+l+1/nv,this.cursor.z);
+               box[3] = convertUVtoXY(u,v+l+1/nv,this.cursor.z);
+            }
+            //box[0].applyTransformation(rot);
+            box[0].applyTransformation(rotateX(10));
+            box[0].applyTransformation(sc);
+            box[0].perspective(pers);
+            box[0].pointToPixel();
+            g.beginPath();
+            g.moveTo(box[0].x,box[0].y);
+            for(var i=1;i<4;i++){
+              // box[i].applyTransformation(rot);
+               box[i].applyTransformation(rotateX(10));
+               box[i].applyTransformation(sc);
+               box[i].perspective(pers);
+               box[i].pointToPixel();
+               g.lineTo(box[i].x,box[i].y);               
+            }
+            g.lineTo(box[0].x,box[0].y);
+            g.stroke();
+            g.fillStyle = 'rgb(30,144,255)';
+            g.fill();
+         }
+      }
+   }
+
+
+
+</script>
+
+</p><p>&nbsp;</p><p></p><hr>&nbsp;<p>
+
+
+</td>
+</tr></tbody></table>
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<hr color="white" size="1000">
+
+&nbsp;
+</body></html>
