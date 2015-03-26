@@ -62,6 +62,11 @@
            
    }
 
+   float addProcedural(vec3 point){      
+      vec3 s = vec3(121.756, 180.100, 50.123);
+      return fract(sin(dot(s, point.xyz) * uTime));
+   }
+
    // Diffusely shade a sphere.
    //    point is the x,y,z position of the surface point.
    //    sphere is the x,y,z,r definition of the sphere.
@@ -74,7 +79,7 @@
 
       // FOR THE AMBIENT COMPONENT OF THE DIFFUSE SHADING, YOU CAN
       // USE A SIMPLE APPROXIMATION SUCH AS: ambient = material / 5.;
-
+      point += abs(addProcedural(point)/5.5);
       vec3 normal = (point - sphere.xyz)/sphere.w;
       vec3 ambient = material / 5.;
       vec3 diffuse = Lrgb / 3.;
