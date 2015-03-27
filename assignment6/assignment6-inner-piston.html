@@ -1,0 +1,119 @@
+
+<!-- saved from url=(0051)http://mrl.nyu.edu/~perlin/courses/spring2015/0304/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><style type="text/css"></style></head><body data-feedly-mini="yes"><hr color="white" size="75"><table><tbody><tr><td width="75"></td><td>
+<font face="helvetica">
+<center><big><b>
+
+Assignment 6
+
+</b></big></center>
+<hr color="white" size="50">
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+<table>
+<tbody><tr>
+<td><canvas id="canvas6" width="600" height="600"></canvas></td>
+<td width="50"></td>
+<td valign="top">
+Piston
+<p>
+Animation of a piston.
+</p></td>
+</tr>
+
+</tbody></table>
+
+<script src="./drawlib1.js"></script>
+<script>
+   var origin  = new Vector3(0,0,0);
+   var centerPoint    = new Vector3();
+   var piston  = new Vector3();
+   var cam2    = new Vector3();
+   var cam     = new Vector3();
+   var link    = new Vector3();
+   var m       = new Matrix();
+   var canvas = initCanvas('canvas6');
+   function drawLine(src, dst, g){
+       g.strokeStyle = 'blue';
+       g.beginPath();
+       g.moveTo(400+400*src.x, 400+400*-src.y);
+       g.lineTo(400+400*dst.x, 400+400*-dst.y);
+       g.stroke();
+   }
+   function drawRect(src, dst, g){
+       g.strokeStyle = 'blue';
+       g.beginPath();       
+       g.rect(400+400*(src.x - .08), 400+400*-src.y, 40 + 100*(dst.x), 40 + 100*-dst.y);
+       g.stroke();
+   }
+   canvas.update = function(g) {
+      this.g = g; // so the drawLine method will know where to draw to.
+
+      var theta = 3 * time;
+
+      g.lineCap = "round";
+      g.lineJoin = "round";
+
+      g.fillStyle = 'rgb(220,250,255)';
+      g.beginPath();
+      g.moveTo(0,0);
+      g.lineTo(this.width,0);1
+      g.lineTo(this.width,this.height);
+      g.lineTo(0,this.height);
+      g.fill();
+     
+      g.lineWidth = 10;
+
+      m.identity();
+  
+      m.translate(.2,.3,0);
+
+      m.rotateZ(theta);
+      centerPoint = m.transform(origin);
+      m.translate(0,.1,0);
+      cam = m.transform(origin);
+      m.translate(0,-.2,0);
+      cam2 = m.transform(origin);
+
+      m.identity();      
+      m.translate(.2,.6,0);      
+      m.translate(0,Math.cos(theta) * .1,0);
+      link = m.transform(origin);
+
+      m.translate(0,.1,0);
+      piston = m.transform(origin);
+
+      drawLine(centerPoint, cam, g);
+      drawLine(centerPoint, cam2, g);
+      drawLine(cam, link, g);
+      drawRect(link, piston, g);
+
+   }
+
+
+</script>
+
+</p><p>&nbsp;</p><p></p><hr>&nbsp;<p>
+
+
+</td>
+</tr></tbody></table>
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<hr color="white" size="1000">
+
+&nbsp;
+</body></html>

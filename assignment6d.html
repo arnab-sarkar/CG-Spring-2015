@@ -51,17 +51,17 @@
 										<li><a href="assignment4a.html">A (Cube)</a></li>
 										<li><a href="assignment4b.html">B (Tetrahedron)</a></li>										
 									</ul>
-								</li>	
+								</li>
 								<li><a href="assignment5.html">Assignment 5</a></li>	
 								<li class="submenu">
 									<a href="">Assignment 6</a>
 									<ul>
 										<li><a href="assignment6a.html">A (Perspective)</a></li>
 										<li><a href="assignment6b.html">B (Sphere/Super Sphere)</a></li>
-										<li><a href="assignment6c.html">C (Fun With Shapes)</a></li>		
-										<li><a href="assignment6d.html">D (Animation)</a></li>								
+										<li><a href="assignment6c.html">C (Fun With Shapes)</a></li>										
+										<li><a href="assignment6d.html">D (Animation)</a></li>
 									</ul>
-								</li>					
+								</li>						
 							</ul>
 						</li>						
 					</ul>
@@ -73,8 +73,8 @@
 
 				<header class="special container">
 					<span class="icon fa-laptop"></span>
-					<h2><strong>Assignment 1</strong></h2>
-					<!--p>Where things on the right ... accompany that on the left.</p-->
+					<h2><strong>Assignment 6 D</strong></h2>
+					<p>Animation</p>
 				</header>
 					
 				<!-- One -->
@@ -88,8 +88,7 @@
 										<section>
 											<!--a href="#" class="image feature"><img src="images/pic03.jpg" alt="" /></a-->
 											<div> 
-											    <object type="text/html" data="assignment1/assignment1-inner.html" class="inner-html">
-											    </object>
+											    <canvas id="canvas6" width="600" height="600"></canvas>
 											 </div>		                                  				
 										</section>
 									</div>
@@ -101,24 +100,20 @@
 									<div class="sidebar">
 										<section>
 											<header>
-												<h3>Color Burst</h3>
+												<h3>PISTON</h3>
 											</header>																	
 										</section>
 
 										<section>
-											<p>Bursts of color appear in circles.</p>		
-										
-											<p>The center of the circles can be changed by clicking and dragging the mouse around.</p>
+											<p>Animation of a Piston.</p>		
 
-                                 			<p>Drag the center to the corners and edges for cool effects!</p>
-
-                                 			<p>Click <a href="assignment1/assignment1-inner.html" target="_blank">here</a> to open in new tab.</p>
+                                 			<p>Click <a href="assignment6/assignment6-inner-piston.html" target="_blank">here</a> to open in new tab.</p>
 										</section>
 									</div>
 
 							</div>
-						</div>					
-					</section>				
+						</div>	
+
 			</article>
 
 		<!-- Footer -->
@@ -133,5 +128,73 @@
 				</ul>			
 			</footer>
 
+			<script src="./assignment6/drawlib1.js"></script>
+			<script>
+			var origin  = new Vector3(0,0,0);
+   var centerPoint    = new Vector3();
+   var piston  = new Vector3();
+   var cam2    = new Vector3();
+   var cam     = new Vector3();
+   var link    = new Vector3();
+   var m       = new Matrix();
+   var canvas = initCanvas('canvas6');
+   function drawLine(src, dst, g){
+       g.strokeStyle = 'blue';
+       g.beginPath();
+       g.moveTo(400+400*src.x, 400+400*-src.y);
+       g.lineTo(400+400*dst.x, 400+400*-dst.y);
+       g.stroke();
+   }
+   function drawRect(src, dst, g){
+       g.strokeStyle = 'blue';
+       g.beginPath();       
+       g.rect(400+400*(src.x - .08), 400+400*-src.y, 40 + 100*(dst.x), 40 + 100*-dst.y);
+       g.stroke();
+   }
+   canvas.update = function(g) {
+      this.g = g; // so the drawLine method will know where to draw to.
+
+      var theta = 3 * time;
+
+      g.lineCap = "round";
+      g.lineJoin = "round";
+
+      g.fillStyle = 'rgb(220,250,255)';
+      g.beginPath();
+      g.moveTo(0,0);
+      g.lineTo(this.width,0);1
+      g.lineTo(this.width,this.height);
+      g.lineTo(0,this.height);
+      g.fill();
+     
+      g.lineWidth = 10;
+
+      m.identity();
+  
+      m.translate(.2,.3,0);
+
+      m.rotateZ(theta);
+      centerPoint = m.transform(origin);
+      m.translate(0,.1,0);
+      cam = m.transform(origin);
+      m.translate(0,-.2,0);
+      cam2 = m.transform(origin);
+
+      m.identity();      
+      m.translate(.2,.6,0);      
+      m.translate(0,Math.cos(theta) * .1,0);
+      link = m.transform(origin);
+
+      m.translate(0,.1,0);
+      piston = m.transform(origin);
+
+      drawLine(centerPoint, cam, g);
+      drawLine(centerPoint, cam2, g);
+      drawLine(cam, link, g);
+      drawRect(link, piston, g);
+
+   }
+		   
+		   </script> 
 	</body>
 </html>
