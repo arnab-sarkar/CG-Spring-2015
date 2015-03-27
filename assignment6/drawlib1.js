@@ -225,8 +225,48 @@
                   [0,0,1,0],
                   [0,0,0,1]]; 
    }
-   Matrix.prototype = {
-     multiplyMatrices : function(m1, m2) {
+   Matrix.prototype = {     
+     translate : function(x, y, z) {
+         T = translate(x,y,z);
+         this.M = this.applyTransformation(this.M,T);
+         return;
+     },
+     rotateX : function(theta) { 
+         R = rotateX(theta);
+         this.M = this.applyTransformation(this.M,R);
+         return;
+     },
+     rotateY : function(theta) {
+         R = rotateY(theta);
+         this.M = this.applyTransformation(this.M,R);
+         return;
+     },
+     rotateZ : function(theta) {
+         R = rotateZ(theta);
+         this.M = this.applyTransformation(this.M,R);
+         return;
+     },
+     scale : function(x, y, z) {
+         S = scale(x,y,z);
+         this.M = this.applyTransformation(this.M,S);
+         return;
+     },
+      perspective : function(x, y, z) {
+         P = perspective(x,y,z);
+         this.M = this.applyTransformation(this.M,P);
+         return;
+     },
+     transform : function(src) {
+         srclst = [[src.x],[src.y],[src.z],[1]];
+         dstlst = this.applyTransformation(this.M,srclst);
+         dst = new Vector3(dstlst[0],dstlst[1],dstlst[2]);
+       return dst;
+     },
+     identity : function() {
+       this.M = identity();      
+       return;
+     },
+     applyTransformation : function(m1, m2) {
          var result = [];
          for (var i = 0; i < m1.length; i++) {
             result[i] = [];
@@ -240,78 +280,4 @@
          }
          return result;
       },
-     translate : function(x, y, z) {
-         T = [[1,0,0,x],
-            [0,1,0,y],
-            [0,0,1,z],
-            [0,0,0,1]];
-         this.M = this.multiplyMatrices(this.M,T);
-         return;
-     },
-     rotateX : function(theta) { 
-         R = [[1,0,0,0],
-            [0,Math.cos(theta),-Math.sin(theta),0],
-            [0,Math.sin(theta),Math.cos(theta),0],
-            [0,0,0,1]];
-         this.M = this.multiplyMatrices(this.M,R);
-         return;
-     },
-     rotateY : function(theta) {
-         R = [[Math.cos(theta),0,Math.sin(theta),0],
-            [0,1,0,0],
-            [-Math.sin(theta),0,Math.cos(theta),0],
-            [0,0,0,1]];
-         this.M = this.multiplyMatrices(this.M,R);
-         return;
-     },
-     rotateZ : function(theta) {
-         R = [[Math.cos(theta),-Math.sin(theta),0,0],
-            [Math.sin(theta),Math.cos(theta),0,0],
-            [0,0,1,0],
-            [0,0,0,1]];
-         this.M = this.multiplyMatrices(this.M,R);
-         return;
-     },
-     scale : function(x, y, z) {
-         S = [[1*x,0,0,0],
-            [0,1*y,0,0],
-            [0,0,1*z,0],
-            [0,0,0,1]];
-         this.M = this.multiplyMatrices(this.M,S);
-         return;
-     },
-      perspective : function(x, y, z) {
-         S = [[1,0,0,0],
-            [0,1,0,0],
-            [0,0,1,0],
-            [x,y,z,1]];
-         this.M = this.multiplyMatrices(this.M,S);
-         return;
-     },
-      cameraFly : function(Cinv) {
-          this.M = this.multiplyMatrices(Cinv,this.M); //adjust for camera view
-      },
-     transform : function(src) {
-         srclst = [[src.x],[src.y],[src.z],[1]];
-        dstlst = this.multiplyMatrices(this.M,srclst);
-         dst = new Vector3(dstlst[0],dstlst[1],dstlst[2]);
-       return dst;
-     },
-     identity : function() {
-       this.M = [[1,0,0,0],
-                 [0,1,0,0],
-                 [0,0,1,0],
-                 [0,0,0,1]];      
-       return;
-     },
-     draw : function(g) {
-             
-         g.beginPath();
-         g.moveTo(this.v[this.e[0]].x, this.v[this.e[0]].y);
-         for (i = 1; i < this.e.length; i++) { 
-             g.lineTo(this.v[this.e[i]].x, this.v[this.e[i]].y);
-         }
-         g.fill();
-         g.closePath();
-     },
    }
