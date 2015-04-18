@@ -4,7 +4,7 @@
 <font face="helvetica">
 <center><big><b>
 
-Assignment 7B
+Assignment 7C
 
 </b></big></center>
 <hr color="white" size="50">
@@ -243,6 +243,11 @@ var drawAuxiliaryLines = function (index) {
 canvas.update = function (g) {
   var x = this.cursor.x, y = this.cursor.y;
 
+  var mod = Math.floor(time)%10; 
+  if( mod == Math.floor(Math.random()*10)) {
+    console.log(mod);
+    points[0].push(new Vector3(-1+2*Math.random(),-0.5+Math.random(),0));
+  }
   for (var i = 0; i <= currPointsIndex; i++) {
     drawBezierSpline(i);
 

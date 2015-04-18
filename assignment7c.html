@@ -66,8 +66,8 @@
                    <a href="">Assignment 7</a>
                    <ul>
                       <li><a href="assignment7a.html">A (Curves)</a></li>
-                      <li><a href="assignment7b.html">B (Editor)</a></li>
-                      <li><a href="assignment7c.html">C (Fun)</a></li>                            
+                      <li><a href="assignment7b.html">B (Editor)</a></li> 
+                      <li><a href="assignment7c.html">C (Fun)</a></li>                        
                    </ul>
                 </li>				
 							</ul>
@@ -81,7 +81,7 @@
 
 				<header class="special container">
 					<span class="icon fa-laptop"></span>
-					<h2><strong>Assignment 7 B</strong></h2>
+					<h2><strong>Assignment 7 C</strong></h2>
 					<p>Editor</p>
 				</header>
 					
@@ -96,11 +96,8 @@
 									   <canvas id="canvas1" width="1050" height="600"></canvas>
 									</div>
 									<header>										
-										<p>Press T to toggle the points on or off</p>
-										<p>Press X to undo</p>
-										<p>Point to a point and press D to delete the point</p>
-                    <p>Click and drag a point to move it</p>
-										<p>Click <a href="assignment7/assignment7b-inner.html" target="_blank">here</a> to open in new tab.<p>
+										<p>Random points generate an artistic curve</p>
+										<p>Click <a href="assignment7/assignment7c-inner.html" target="_blank">here</a> to open in new tab.<p>
 									</header>
 									<p></p>
 								</section>
@@ -335,6 +332,11 @@ var drawAuxiliaryLines = function (index) {
 canvas.update = function (g) {
   var x = this.cursor.x, y = this.cursor.y;
 
+  var mod = Math.floor(time)%10; 
+  if( mod == Math.floor(Math.random()*10)) {
+    console.log(mod);
+    points[0].push(new Vector3(-1+2*Math.random(),-0.5+Math.random(),0));
+  }
   for (var i = 0; i <= currPointsIndex; i++) {
     drawBezierSpline(i);
 
