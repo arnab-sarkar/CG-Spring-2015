@@ -98,6 +98,7 @@
 										<p>Press T to toggle the points on or off</p>
 										<p>Press X to undo</p>
 										<p>Point to a point and press D to delete the point</p>
+                    <p>Click and drag a point to move it</p>
 										<p>Click <a href="assignment7/assignment7b-inner.html" target="_blank">here</a> to open in new tab.<p>
 									</header>
 									<p></p>
@@ -127,7 +128,7 @@ var matrix = new Matrix();
 var canvas = initCanvas('canvas1');
 
 var currPointsIndex = 0;
-var points = [[], [], [], [], [], [], []];
+var points = [[]];
 
 
 var getContextG = function () {
