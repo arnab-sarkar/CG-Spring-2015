@@ -1,0 +1,277 @@
+
+<!-- saved from url=(0051)http://mrl.nyu.edu/~perlin/courses/spring2015/0304/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><style type="text/css"></style></head><body data-feedly-mini="yes"><hr color="white" size="75"><table><tbody><tr><td width="75"></td><td>
+<font face="helvetica">
+<center><big><b>
+
+Assignment 7B
+
+</b></big></center>
+<hr color="white" size="50">
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+<table>
+<tbody><tr>
+<td><canvas id="canvas1" width="800" height="450"></canvas></td>
+<td width="50"></td>
+<td valign="top">
+Curve Editor
+</td>
+</tr>
+
+</tbody></table> 
+  <script src="./lib.js"></script>
+<script>
+
+var toggle = 1;
+var radius = 5;
+var numOfCurves = 1;
+var matrix = new Matrix();
+var canvas = initCanvas('canvas1');
+
+var currPointsIndex = 0;
+var points = [[], [], [], [], [], [], []];
+
+
+var getContextG = function () {
+  return canvas.getContext('2d');
+};
+
+var drawBezierSpline = function (index) {
+  var num = points[index].length;
+
+  if (num < 3) {
+    return;
+  }
+
+  var ut = 1.0 / (num * 20);
+  var res = [];
+
+  for (var t = 0; t < .999; t += ut) {
+    res.push((new Bezier()).getCoord2(t, points[index]));
+  }
+
+  drawSpline(res, index);
+};
+
+var drawSpline = function (vertices, index) {
+  var g = getContextG();
+
+  for (var i = 0; i < vertices.length - 1; i++) {
+    var vertex1 = new Vector3(0, 0, 0);
+    var vertex2 = new Vector3(0, 0, 0);
+    matrix.transform(vertices[i], vertex1);
+    matrix.transform(vertices[i + 1], vertex2);
+    vertex1.viewportTransformation(canvas);
+    vertex2.viewportTransformation(canvas);
+
+    g.strokeStyle = "rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")";
+    g.beginPath();
+    g.moveTo(vertex1.x, vertex1.y);
+    g.lineTo(vertex2.x, vertex2.y);
+    g.stroke();
+  }
+};
+
+canvas.onclick = function () {
+  if (hasMovedPoint) {
+    return;
+  }
+
+  var x = canvas.cursor.x, y = canvas.cursor.y;
+  var newPoint = new Vector3(x, y, 0);
+
+  // Skip if the cursor is within a point
+  for (var i = 0; i < points[currPointsIndex].length; i++) {
+    var vertex = new Vector3(0, 0, 0);
+    matrix.transform(points[currPointsIndex][i], vertex);
+    vertex.viewportTransformation(canvas);
+    if (isInCircle(vertex)) {
+      return;
+    }
+  }
+
+  newPoint.viewportReverseTransformation(canvas);
+  points[currPointsIndex].push(newPoint);
+};
+
+document.onkeypress = function (event) {
+  if (!event) {
+    event = window.event;
+  }
+  var code = event.keyCode;
+  if (event.charCode && code == 0) {
+    code = event.charCode;
+  }
+
+  var x = canvas.cursor.x, y = canvas.cursor.y;
+
+  if (code === 100) {
+    // Key: D
+    deletePoint(x, y);
+  } else if (code === 120) {
+    // Key: X
+    deletePoint(x, y, true);
+  } else if (code === 116) {
+    // Key: T
+    toggle *= -1;
+  }
+};
+
+var mouseIsDown = false;
+var hasMovedPoint = false;
+var movingPoints = [-1, -1];
+
+canvas.onmousedown = function (e) {
+  hasMovedPoint = false;
+  movingPoints = [-1, -1];
+  mouseIsDown = true;
+};
+canvas.onmouseup = function (e) {
+  mouseIsDown = false;
+};
+
+document.onmousemove = function (e) {
+  if (!mouseIsDown) {
+    return;
+  }
+
+  var x = canvas.cursor.x, y = canvas.cursor.y;
+
+  if (movingPoints[0] === -1) {
+    for (var j = 0; j < numOfCurves; j++) {
+      for (var i = 0; i < points[j].length; i++) {
+        var vertex = new Vector3(0, 0, 0);
+        matrix.transform(points[j][i], vertex);
+        vertex.viewportTransformation(canvas);
+        if (isInCircle(vertex)) {
+          movingPoints = [j, i];
+          hasMovedPoint = true;
+          var newPosition = new Vector3(x, y, 0);
+          newPosition.viewportReverseTransformation(canvas);
+          points[j][i] = newPosition;
+        }
+      }
+    }
+  } else {
+    hasMovedPoint = true;
+    var newPosition = new Vector3(x, y, 0);
+    newPosition.viewportReverseTransformation(canvas);
+    points[movingPoints[0]][movingPoints[1]] = newPosition;
+  }
+
+
+};
+
+var deletePoint = function (x, y, deleteLast) {
+  if (deleteLast) {
+    points[currPointsIndex].splice(points[currPointsIndex].length - 1, 1);
+  } else {
+    var clickPoint = new Vector3(x, y, 0);
+    clickPoint.viewportReverseTransformation(canvas);
+
+    for (var j = 0; j < numOfCurves; j++) {
+      for (var i = 0; i < points[j].length; i++) {
+        var vertex = new Vector3(0, 0, 0);
+        matrix.transform(points[j][i], vertex);
+        vertex.viewportTransformation(canvas);
+        if (isInCircle(vertex)) {
+          points[j].splice(i, 1);
+          return;
+        }
+      }
+    }
+  }
+};
+
+var drawPoint = function (index) {
+  var g = getContextG();
+
+  for (var i = 0; i < points[index].length; i++) {
+    var point = points[index][i];
+    var vertex = new Vector3(0, 0, 0);
+    matrix.transform(point, vertex);
+    vertex.viewportTransformation(canvas);
+
+    g.beginPath();
+    g.arc(vertex.x, vertex.y, radius, 0, 2 * Math.PI, false);
+    g.fillStyle = isInCircle(vertex) ? 'cyan' : 'black';
+    g.fill();
+    g.lineWidth = 1;
+    g.strokeStyle = '#00ddcc';
+    g.stroke();
+  }
+};
+
+
+var isInCircle = function (circle) {
+  var x = canvas.cursor.x, y = canvas.cursor.y;
+  var dist = Math.sqrt(Math.pow(x - circle.x, 2) + Math.pow(y - circle.y, 2));
+  return dist <= radius;
+};
+
+var drawAuxiliaryLines = function (index) {
+  var g = getContextG();
+  var defaultLineDash = g.getLineDash();
+  g.setLineDash([2]);
+  g.strokeStyle = 'gray';
+
+  for (var i = 0; i < points[index].length - 1; i++) {
+    var vertex1 = new Vector3(0, 0, 0);
+    var vertex2 = new Vector3(0, 0, 0);
+    matrix.transform(points[index][i], vertex1);
+    matrix.transform(points[index][i + 1], vertex2);
+    vertex1.viewportTransformation(canvas);
+    vertex2.viewportTransformation(canvas);
+
+    g.beginPath();
+    g.moveTo(vertex1.x, vertex1.y);
+    g.lineTo(vertex2.x, vertex2.y);
+    g.stroke();
+  }
+
+  g.setLineDash(defaultLineDash);
+};
+
+canvas.update = function (g) {
+  var x = this.cursor.x, y = this.cursor.y;
+
+  for (var i = 0; i <= currPointsIndex; i++) {
+    drawBezierSpline(i);
+
+    if (toggle == 1) {
+      drawAuxiliaryLines(i);
+      drawPoint(i);
+    }      
+  }
+
+  drawBoard(this, g);
+};
+   
+
+</script>
+
+</p><p>&nbsp;</p><p></p><hr>&nbsp;<p>
+
+
+</td>
+</tr></tbody></table>
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<hr color="white" size="1000">
+
+&nbsp;
+</body></html>

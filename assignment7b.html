@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty 1.0 by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>CG Arnab Sarkar</title>
+        <link rel="icon" href="images/icon.png">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+	</head>
+	<body class="no-sidebar loading">
+	
+		<!-- Header -->
+			<header id="header">
+				<h1 id="logo"><a href="index.html">HOME</a></h1>
+				<nav id="nav">
+					<ul>
+						<li class="current"><a href="Arnab-Sarkar-Resume.pdf" target="_blank">ARNAB SARKAR</a></li>
+						<li class="submenu">
+							<a href="">Assignments</a>
+							<ul>
+								<li><a href="assignment1.html">Assignment 1</a></li>
+								<li><a href="assignment2.html">Assignment 2</a></li>
+								<li class="submenu">
+									<a href="">Assignment 3</a>
+									<ul>
+										<li><a href="assignment3a.html">A (Phong)</a></li>
+										<li><a href="assignment3b.html">B (Blinn)</a></li>
+										<li><a href="assignment3c.html">C (Boolean Intersection)</a></li>										
+									</ul>
+								</li>
+								<li class="submenu">
+									<a href="">Assignment 4</a>
+									<ul>
+										<li><a href="assignment4a.html">A (Cube)</a></li>
+										<li><a href="assignment4b.html">B (Tetrahedron)</a></li>										
+									</ul>
+								</li>	
+								<li><a href="assignment5.html">Assignment 5</a></li>	
+								<li class="submenu">
+									<a href="">Assignment 6</a>
+									<ul>
+										<li><a href="assignment6a.html">A (Perspective)</a></li>
+										<li><a href="assignment6b.html">B (Sphere/Super Sphere)</a></li>
+										<li><a href="assignment6c.html">C (Fun With Shapes)</a></li>	
+										<li><a href="assignment6d.html">D (Animation)</a></li>									
+									</ul>
+								</li>
+								<li class="submenu">
+                   <a href="">Assignment 7</a>
+                   <ul>
+                      <li><a href="assignment7a.html">A (Curves)</a></li>
+                      <li><a href="assignment7b.html">B (Editor)</a></li>                        
+                   </ul>
+                </li>				
+							</ul>
+						</li>						
+					</ul>
+				</nav>
+			</header>
+		
+		<!-- Main -->
+			<article id="main">
+
+				<header class="special container">
+					<span class="icon fa-laptop"></span>
+					<h2><strong>Assignment 7 B</strong></h2>
+					<p>Editor</p>
+				</header>
+					
+				<!-- One -->
+					<section class="wrapper style4 container">
+					
+						<!-- Content -->
+							<div class="content">
+								<section>
+									<!--a href="#" class="image feature"><img src="images/pic04.jpg" alt="" /></a-->
+									<div> 
+									   <canvas id="canvas1" width="800" height="600"></canvas>
+									</div>
+									<header>										
+										<p>Press T to toggle the points on or off</p>
+										<p>Press X to undo</p>
+										<p>Point to a point and press D to delete the point</p>
+										<p>Click <a href="assignment7/assignment7b-inner.html" target="_blank">here</a> to open in new tab.<p>
+									</header>
+									<p></p>
+								</section>
+							</div>
+
+					</section>	
+
+		<!-- Footer -->
+		<footer id="footer">
+			
+				<ul class="icons">
+					<li><a href="https://twitter.com/arnabsarkar1111" target="_blank" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
+					<li><a href="https://www.facebook.com/arnabsarkar1111" target="_blank" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
+					<li><a href="https://www.linkedin.com/pub/arnab-sarkar/7a/ab0/795" target="_blank" class="icon circle fa-linkedin"><span class="label">Google+</span></a></li>
+					<li><a href="https://github.com/arnab-sarkar" target="_blank" class="icon circle fa-github"><span class="label">Github</span></a></li>
+					<!--li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li-->
+				</ul>			
+			</footer>
+
+			<script src="./assignment7/lib.js"></script>
+			<script>
+			var toggle = 1;
+var radius = 5;
+var numOfCurves = 1;
+var matrix = new Matrix();
+var canvas = initCanvas('canvas1');
+
+var currPointsIndex = 0;
+var points = [[], [], [], [], [], [], []];
+
+
+var getContextG = function () {
+  return canvas.getContext('2d');
+};
+
+var drawBezierSpline = function (index) {
+  var num = points[index].length;
+
+  if (num < 3) {
+    return;
+  }
+
+  var ut = 1.0 / (num * 20);
+  var res = [];
+
+  for (var t = 0; t < .999; t += ut) {
+    res.push((new Bezier()).getCoord2(t, points[index]));
+  }
+
+  drawSpline(res, index);
+};
+
+var drawSpline = function (vertices, index) {
+  var g = getContextG();
+
+  for (var i = 0; i < vertices.length - 1; i++) {
+    var vertex1 = new Vector3(0, 0, 0);
+    var vertex2 = new Vector3(0, 0, 0);
+    matrix.transform(vertices[i], vertex1);
+    matrix.transform(vertices[i + 1], vertex2);
+    vertex1.viewportTransformation(canvas);
+    vertex2.viewportTransformation(canvas);
+
+    g.strokeStyle = "rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")";
+    g.beginPath();
+    g.moveTo(vertex1.x, vertex1.y);
+    g.lineTo(vertex2.x, vertex2.y);
+    g.stroke();
+  }
+};
+
+canvas.onclick = function () {
+  if (hasMovedPoint) {
+    return;
+  }
+
+  var x = canvas.cursor.x, y = canvas.cursor.y;
+  var newPoint = new Vector3(x, y, 0);
+
+  // Skip if the cursor is within a point
+  for (var i = 0; i < points[currPointsIndex].length; i++) {
+    var vertex = new Vector3(0, 0, 0);
+    matrix.transform(points[currPointsIndex][i], vertex);
+    vertex.viewportTransformation(canvas);
+    if (isInCircle(vertex)) {
+      return;
+    }
+  }
+
+  newPoint.viewportReverseTransformation(canvas);
+  points[currPointsIndex].push(newPoint);
+};
+
+document.onkeypress = function (event) {
+  if (!event) {
+    event = window.event;
+  }
+  var code = event.keyCode;
+  if (event.charCode && code == 0) {
+    code = event.charCode;
+  }
+
+  var x = canvas.cursor.x, y = canvas.cursor.y;
+
+  if (code === 100) {
+    // Key: D
+    deletePoint(x, y);
+  } else if (code === 120) {
+    // Key: X
+    deletePoint(x, y, true);
+  } else if (code === 116) {
+    // Key: T
+    toggle *= -1;
+  }
+};
+
+var mouseIsDown = false;
+var hasMovedPoint = false;
+var movingPoints = [-1, -1];
+
+canvas.onmousedown = function (e) {
+  hasMovedPoint = false;
+  movingPoints = [-1, -1];
+  mouseIsDown = true;
+};
+canvas.onmouseup = function (e) {
+  mouseIsDown = false;
+};
+
+document.onmousemove = function (e) {
+  if (!mouseIsDown) {
+    return;
+  }
+
+  var x = canvas.cursor.x, y = canvas.cursor.y;
+
+  if (movingPoints[0] === -1) {
+    for (var j = 0; j < numOfCurves; j++) {
+      for (var i = 0; i < points[j].length; i++) {
+        var vertex = new Vector3(0, 0, 0);
+        matrix.transform(points[j][i], vertex);
+        vertex.viewportTransformation(canvas);
+        if (isInCircle(vertex)) {
+          movingPoints = [j, i];
+          hasMovedPoint = true;
+          var newPosition = new Vector3(x, y, 0);
+          newPosition.viewportReverseTransformation(canvas);
+          points[j][i] = newPosition;
+        }
+      }
+    }
+  } else {
+    hasMovedPoint = true;
+    var newPosition = new Vector3(x, y, 0);
+    newPosition.viewportReverseTransformation(canvas);
+    points[movingPoints[0]][movingPoints[1]] = newPosition;
+  }
+
+
+};
+
+var deletePoint = function (x, y, deleteLast) {
+  if (deleteLast) {
+    points[currPointsIndex].splice(points[currPointsIndex].length - 1, 1);
+  } else {
+    var clickPoint = new Vector3(x, y, 0);
+    clickPoint.viewportReverseTransformation(canvas);
+
+    for (var j = 0; j < numOfCurves; j++) {
+      for (var i = 0; i < points[j].length; i++) {
+        var vertex = new Vector3(0, 0, 0);
+        matrix.transform(points[j][i], vertex);
+        vertex.viewportTransformation(canvas);
+        if (isInCircle(vertex)) {
+          points[j].splice(i, 1);
+          return;
+        }
+      }
+    }
+  }
+};
+
+var drawPoint = function (index) {
+  var g = getContextG();
+
+  for (var i = 0; i < points[index].length; i++) {
+    var point = points[index][i];
+    var vertex = new Vector3(0, 0, 0);
+    matrix.transform(point, vertex);
+    vertex.viewportTransformation(canvas);
+
+    g.beginPath();
+    g.arc(vertex.x, vertex.y, radius, 0, 2 * Math.PI, false);
+    g.fillStyle = isInCircle(vertex) ? 'cyan' : 'black';
+    g.fill();
+    g.lineWidth = 1;
+    g.strokeStyle = '#00ddcc';
+    g.stroke();
+  }
+};
+
+
+var isInCircle = function (circle) {
+  var x = canvas.cursor.x, y = canvas.cursor.y;
+  var dist = Math.sqrt(Math.pow(x - circle.x, 2) + Math.pow(y - circle.y, 2));
+  return dist <= radius;
+};
+
+var drawAuxiliaryLines = function (index) {
+  var g = getContextG();
+  var defaultLineDash = g.getLineDash();
+  g.setLineDash([2]);
+  g.strokeStyle = 'gray';
+
+  for (var i = 0; i < points[index].length - 1; i++) {
+    var vertex1 = new Vector3(0, 0, 0);
+    var vertex2 = new Vector3(0, 0, 0);
+    matrix.transform(points[index][i], vertex1);
+    matrix.transform(points[index][i + 1], vertex2);
+    vertex1.viewportTransformation(canvas);
+    vertex2.viewportTransformation(canvas);
+
+    g.beginPath();
+    g.moveTo(vertex1.x, vertex1.y);
+    g.lineTo(vertex2.x, vertex2.y);
+    g.stroke();
+  }
+
+  g.setLineDash(defaultLineDash);
+};
+
+canvas.update = function (g) {
+  var x = this.cursor.x, y = this.cursor.y;
+
+  for (var i = 0; i <= currPointsIndex; i++) {
+    drawBezierSpline(i);
+
+    if (toggle == 1) {
+      drawAuxiliaryLines(i);
+      drawPoint(i);
+    }      
+  }
+
+  drawBoard(this, g);
+};
+		   
+		   </script> 
+
+	</body>
+</html>
