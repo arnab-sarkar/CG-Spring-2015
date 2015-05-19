@@ -21,7 +21,7 @@ var params = {
 	stroke: false
 };
 
-var combustion, combustionLight, compression, compressionLight, intake, intakeLight, exhaust, exhaustLight, exhaustArrow, intakeArrow, compressionArrow, combustionArrow;
+var combustion, compression, intake, exhaust, exhaustArrow, intakeArrow, compressionArrow, combustionArrow;
 //var l = 3.1, r = 1, A, x;
 var startTime = new Date().getTime();
 window.onload = function() {	
@@ -359,108 +359,19 @@ window.onload = function() {
 				joint2[i].position.z = 3;
 			}
 		}
-		//joint1[1].position.z += 3;
-		//shaft[1].position.z += 3;
-		//piston[1].position.z += 3;
 		
-		//cylinder_case[1].position.z -= 3;
-		//joint2[1].position.z -= 3;
-		//scene = new THREE.Scene();
-	/*
-		var particleSystem, uniforms, geometry;
-		var particles = 100;
-
-		var geometry = new THREE.BufferGeometry();
-
-				var positions = new Float32Array( particles * 3 );
-				var colors = new Float32Array( particles * 3 );
-
-				var color = new THREE.Color();
-
-				var n = 10, n2 = n / 2; // particles spread in the cube
-
-				for ( var i = 0; i < positions.length; i += 3 ) {
-
-					// positions
-
-					var x = Math.random() * n - n2;
-					var y = Math.random() * n - n2;
-					var z = Math.random() * n - n2;
-
-					positions[ i ]     = x;
-					positions[ i + 1 ] = y;
-					positions[ i + 2 ] = z;
-
-					// colors
-
-					var vx = ( x / n ) + 0.5;
-					var vy = ( y / n ) + 0.5;
-					var vz = ( z / n ) + 0.5;
-
-					color.setRGB( vx, vy, vz );
-
-					colors[ i ]     = color.r;
-					colors[ i + 1 ] = color.g;
-					colors[ i + 2 ] = color.b;
-
-				}
-
-				geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-				geometry.addAttribute( 'color', new THREE.BufferAttribute( colors, 3 ) );
-
-				geometry.computeBoundingSphere();
-
-				//
-
-				var material = new THREE.PointCloudMaterial( { size: 1, vertexColors: THREE.VertexColors } );
-
-				particleSystem = new THREE.PointCloud( geometry, material );
-				scene.add( particleSystem ); */
-
-				/*var combustionGeometry = new THREE.SphereGeometry( 0.1, 32, 32 );
-				var combustionMaterial = new THREE.MeshBasicMaterial( {color: 0xff0000} );
-				combustion = new THREE.Mesh( combustionGeometry, combustionMaterial );
-				//combustion.position.x = 1;
-				//combustion.position.y = 1.6;	
-				combustion.position.z = -3;
-				//scene.add(combustion);	
-				*/
 				combustion = new THREE.PointLight( 0xff0000, 1, 2 );
 				combustion.position.z = -3;
 				scene.add( combustion );
-				/*
-				var compressionGeometry = new THREE.SphereGeometry( 0.1, 32, 32 );
-				var compressionMaterial = new THREE.MeshBasicMaterial( {color: 0x0000ff} );
-				compression = new THREE.Mesh( compressionGeometry, compressionMaterial );
-				//combustion.position.x = 1;
-				//compression.position.y = 1.6;	
-				compression.position.z = -6;
-				//scene.add(compression);	
-				*/
+				
 				compression = new THREE.PointLight( 0x0000ff, 1, 2 );
 				compression.position.z = -6;
 				scene.add( compression );	
-				/*
-				var intakeGeometry = new THREE.SphereGeometry( 0.1, 32, 32 );
-				var intakeMaterial = new THREE.MeshBasicMaterial( {color: 0x00ffff} );
-				intake = new THREE.Mesh( intakeGeometry, intakeMaterial );
-				//combustion.position.x = 1;
-				//intake.position.y = 1.6;	
-				intake.position.z = 0;
-				//scene.add(intake);	
-				*/
+				
 				intake = new THREE.PointLight( 0x00ffff, 1, 2 );
 				intake.position.z = 0;
 				scene.add( intake );	
-				/*
-				var exhaustGeometry = new THREE.SphereGeometry( 0.1, 32, 32 );
-				var exhaustMaterial = new THREE.MeshBasicMaterial( {color: 0x756772} );
-				exhaust = new THREE.Mesh( exhaustGeometry, exhaustMaterial );
-				//combustion.position.x = 1;
-				//exhaust.position.y = 1.6;	
-				exhaust.position.z = 3;
-				//scene.add(exhaust);	
-				*/
+				
 				exhaust = new THREE.PointLight( 0x808080, 1, 2 );
 				exhaust.position.z = 3;
 				scene.add( exhaust );
@@ -520,9 +431,7 @@ window.onload = function() {
 
 	function update() {
 		var time = (new Date().getTime()) - startTime;
-        //cylinder_case.rotation.x += 0.01;
-        //cylinder_case.rotation.y += 0.02;
-        //controls.update();  
+     
         var threshold = 0.698;
         if (params.start) {        	
 	        var amplitude = 0.7;
